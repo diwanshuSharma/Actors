@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "ActorDisplay";
+}
+
+<h2>Actor Display</h2>
+
+<hr />
+
+@using (Html.BeginForm())
+{
+    @Html.DropDownList("name")
+    <input type="submit" name="name" value="Display Actor Info" />
+}
+
+@Html.ActionLink("Add New Movie", "AddNewMovie", "Actor");
+
+
+
+
+
