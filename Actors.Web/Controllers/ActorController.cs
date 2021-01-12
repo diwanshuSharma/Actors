@@ -24,14 +24,35 @@ namespace Actors.Web.Controllers
         [HttpGet]
         public ActionResult ActorDisplay()
         {
-            ViewBag.name = mgr.GetActors().Select(x => x.Name);
+            var actor = from a in mgr.GetActors()
+                        select new SelectListItem()
+                        {
+                            Text = a.Name,
+                            Value = a.Name
+                        };
+            //IEnumerable enum = new Enumerable
+            //SelectList selectLists = new SelectList(actor);
+            ViewBag.name = actor;
+            
             return View();
         }
 
+
         [HttpPost]
-        public ActionResult ActorDisplay(int id)
+        public ActionResult ActorDisplay(string name)
         {
-            return View();
+            var actor = from a in mgr.GetActors()
+                        select new SelectListItem()
+                        {
+                            Text = a.Name,
+                            Value = a.Name
+                        };
+            
+            ViewBag.name = actor;
+
+            var r = Response;
+            var act = mgr.GetActors().Where(x => x.Name == name).Select(x => x).FirstOrDefault();
+            return View(act);
         }
 
         public ActionResult AddNewMovie(int id)
@@ -78,7 +99,7 @@ namespace Actors.Web.Controllers
         public ActionResult AddMovieWithActor(int ActorId, Movie movie)
         {
             mgr.AddMovieToActor(ActorId, movie);
-            return RedirectToAction("Details", new { id = ActorId });
+            return RedirectToAction("Index");
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿
+﻿@model Actors.Data.Actor
+
 @{
     ViewBag.Title = "ActorDisplay";
 }
@@ -10,10 +11,51 @@
 @using (Html.BeginForm())
 {
     @Html.DropDownList("name")
-    <input type="submit" name="name" value="Display Actor Info" />
+    <input  class="btn btn-default" type="submit" name="name" value="Display Actor Info" />
+
 }
 
-@Html.ActionLink("Add New Movie", "AddNewMovie", "Actor");
+@if (Model != null)
+{
+<div>
+    
+    <dl class="jumbotron">
+
+        <div class="row">
+            <div class="col-sm-6">
+                <dd>
+                    <img class="img-responsive" src=@Url.Content(Model.ImagePath) alt="Alternate Text" />
+                </dd>
+            </div>
+            <div class="col-sm-6">
+                <h2>
+                    @Html.DisplayFor(model => model.Name)
+                </h2>
+                <p>
+                    @Html.DisplayFor(model => model.DOB)
+                </p>
+                <h2>
+                    Favourite Movies
+                </h2>
+                <p>
+                    @foreach (var movie in Model.Movies)
+                    {
+                        <p>@movie.Name</p>
+                    }
+                    
+                </p>
+            </div>
+        </div>
+
+    </dl>
+
+</div>
+
+using (Html.BeginForm("AddMovie", "Actor", new { id = Model.ActorId }))
+{
+    <input class="btn btn-danger" type="submit" name="movie" value="Add Movie" />
+}
+}
 
 
 
